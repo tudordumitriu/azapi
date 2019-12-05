@@ -4,10 +4,12 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
-COPY ["AZEApi/AZEApi.csproj", "AZEApi/"]
-RUN dotnet restore "AZEApi/AZEApi.csproj"
+COPY ["AZEApi.csproj", "."]
+RUN dotnet restore "AZEApi.csproj"
 COPY . .
-WORKDIR "/src/AZEApi"
+RUN ls
+RUN pwd
+WORKDIR "/src"
 RUN dotnet build "AZEApi.csproj" -c Release -o /app
 
 FROM build AS publish
