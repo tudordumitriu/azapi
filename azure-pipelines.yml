@@ -21,3 +21,6 @@ steps:
     repository: 'tudordumitriu/azapi'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
+
+- publish: $(System.DefaultWorkingDirectory)/AZEApi/deployment.az.api.yaml
+  artifact: deployment.az.api.yaml
