@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: azapi
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: azapi
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: azapi
-        image: tudordumitriu/azapi:latest
+        image: tudordumitriu/azapi:13
         imagePullPolicy: Always
         ports:
         - containerPort: 80
