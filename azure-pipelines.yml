@@ -17,12 +17,9 @@ steps:
   name: echovar1
 - bash: 'echo ##vso[task.setvariable buildno=$(Build.BuildId)]'
   name: setvarStep
-- bash: echo $(- task: PowerShell@2
+- task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: 'Write-Host "##vso[task.setvariable buildno=1234]''')
-  name: echovar
-
-  
+    script: 'Write-Host "##vso[task.setvariable buildno=12343]"'
 # - publish: $(System.DefaultWorkingDirectory)/AZEApi/deployment.az.api.yaml
 #   artifact: deployment.az.api.yaml
