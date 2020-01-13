@@ -15,7 +15,7 @@ variables:
 steps:
 - bash: echo $(Build.BuildId)
   name: echovar1
-- bash: 'echo ##vso[task.setvariable variable=buildno;]testvalue'
+- bash: 'echo ##vso[task.setvariable buildno=$(Build.BuildId)]'
   name: setvarStep
 - bash: echo $(buildno)
   name: echovar
