@@ -35,5 +35,8 @@ steps:
 
 - bash: echo $(buildno)
   name: echovar2
+
+- bash: |
+    curl -fL -XPUT -H "Authorization:Bearer $(System.AccessToken)" -H "Content-Type:application/json" -d '{"id": "$(FOO_VARIABLE_GROUP_ID)", "type": "Vsts", "name": "buildno", "variables": { "FOO_VARIABLE_GROUP_ID": {"isSecret": false, "value": "$(FOO_VARIABLE_GROUP_ID)"},"buildno": {"isSecret": false,"value": "$(Build.BuildId)"}}}' $(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_apis/distributedtask/variablegroups/$(FOO_VARIABLE_GROUP_ID)?api-version=5.0-preview.1 displayName: 'Set variable in variable group to current foo' 
 # - publish: $(System.DefaultWorkingDirectory)/AZEApi/deployment.az.api.yaml
 #   artifact: deployment.az.api.yaml
