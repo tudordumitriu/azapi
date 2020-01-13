@@ -10,8 +10,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- group: Shared Variables
-- name: buildno  
 
 steps:
 - task: Docker@2
