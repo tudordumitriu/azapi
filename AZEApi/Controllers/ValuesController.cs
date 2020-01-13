@@ -14,7 +14,7 @@ namespace AZEApi.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "a" };
+            return new string[] { "a", "b" };
         }
 
         // GET api/values/5
