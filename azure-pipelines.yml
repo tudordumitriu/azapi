@@ -10,9 +10,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+- group: my-variable-group
+- name: my-bare-variable
+  value: 'value of my-bare-variable'
 
 steps:
 - task: Docker@2
