@@ -9,10 +9,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-- group: SharedVariables
-- name: buildno  
-
 steps:
 - bash: echo $(Build.BuildId)
   name: echovar
