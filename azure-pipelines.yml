@@ -14,13 +14,6 @@ variables:
   - name: buidno
 
 steps:
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Docker Hub'
-    repository: 'tudordumitriu/azapi'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-
 - powershell: echo "##vso[task.setvariable variable=buidno;isOutput=true]$(Build.BuildId)"
   name: setvarStep
 - script: echo $(buidno)
