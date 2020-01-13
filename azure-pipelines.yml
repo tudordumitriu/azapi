@@ -10,7 +10,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  test: 1
+  - group: SharedVariables
+  - name: buidno
+    value: '25'
 
 steps:
 - task: Docker@2
