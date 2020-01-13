@@ -21,5 +21,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'Write-Host "##vso[task.setvariable buildno=12343]"'
+- bash: echo $(buildno)
+  name: echovar2
 # - publish: $(System.DefaultWorkingDirectory)/AZEApi/deployment.az.api.yaml
 #   artifact: deployment.az.api.yaml
