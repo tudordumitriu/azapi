@@ -9,10 +9,13 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  buildno: '1'
+
 steps:
-- powershell: echo "##vso[task.setvariable variable=buidno;isOutput=true]$(Build.BuildId)"
+- powershell: echo "##vso[task.setvariable variable=buildno;isOutput=true]$(Build.BuildId)"
   name: setvarStep
-- script: echo $(buidno)
+- script: echo $(buildno)
   name: echovar
 
 # - publish: $(System.DefaultWorkingDirectory)/AZEApi/deployment.az.api.yaml
