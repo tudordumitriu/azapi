@@ -21,10 +21,10 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '(Get-Content .\AZEApi\deployment.yaml).replace(''{version}'', $(Build.BuildId)) | Set-Content .\AZEApi\deploymentTemp.yaml'
+    script: '(Get-Content .\buildnotemplate.txt).replace(''{version}'', $(Build.BuildId)) | Set-Content .\buildno.txt'
     
-- publish: $(System.DefaultWorkingDirectory)/AZEApi/deploymentTemp.yaml
-  artifact: deploymentTemp.yaml
+- publish: $(System.DefaultWorkingDirectory)/buildno.txt
+  artifact: buildno.txt
 # - task: PowerShell@2
 #   inputs:
 #     targetType: 'inline'
