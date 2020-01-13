@@ -9,10 +9,6 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  - group: SharedVariables
-  - name: buidno
-
 steps:
 - powershell: echo "##vso[task.setvariable variable=buidno;isOutput=true]$(Build.BuildId)"
   name: setvarStep
