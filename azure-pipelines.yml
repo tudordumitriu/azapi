@@ -10,9 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-- group: my-variable-group
-- name: my-bare-variable
-  value: 'value of my-bare-variable'
+- group: Shared Variables
+- name: buildno  
 
 steps:
 - task: Docker@2
