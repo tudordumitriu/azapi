@@ -9,15 +9,18 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: SharedVariables 
+
 steps:
 - bash: echo $(Build.BuildId)
   name: echovar
-- task: Docker@2
-  inputs:
-    containerRegistry: 'Docker Hub'
-    repository: 'tudordumitriu/azapi'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'Docker Hub'
+#     repository: 'tudordumitriu/azapi'
+#     command: 'buildAndPush'
+#     Dockerfile: '**/Dockerfile'
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
