@@ -13,7 +13,7 @@ variables:
   buildno: '1'
 
 steps:
-- powershell: echo "##vso[task.setvariable variable=buildno;isOutput=true]$(Build.BuildId)"
+- powershell: '##vso[task.setvariable variable=buildno;isOutput=true]$(Build.BuildId)'
   name: setvarStep
 - script: echo $(buildno)
   name: echovar
