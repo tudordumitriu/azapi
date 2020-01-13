@@ -10,7 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  buildno: '1'
+- group: SharedVariables
+- name: buildno  
 
 steps:
 - bash: echo $(Build.BuildId)
