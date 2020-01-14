@@ -52,3 +52,5 @@ steps:
 #https://docs.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups/update?view=azure-devops-rest-5.1
 #https://stackoverflow.com/questions/52986076/having-no-permission-for-updating-variable-group-via-azure-devops-rest-api-from
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/release/variables?view=azure-devops&tabs=batch
+
+## Release pipe az aks get-credentials --resource-group AZExtensive --name AZExtensive | kubectl set image deployment.v1.apps/azapi azapi=tudordumitriu/azapi:$(buildno)
