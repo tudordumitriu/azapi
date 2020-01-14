@@ -9,9 +9,10 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: SharedVariables 
+
 steps:
-- bash: echo $(Build.BuildId)
-  name: echovar
 - task: Docker@2
   inputs:
     containerRegistry: 'Docker Hub'
@@ -21,15 +22,35 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: '(Get-Content .\buildnotemplate.txt).replace(''{version}'', $(Build.BuildId)) | Set-Content .\buildno.txt'
-    
-- publish: $(System.DefaultWorkingDirectory)/buildno.txt
-  artifact: buildno.txt
+    script: |
+      az extension add --name azure-devops
+      Write-Host $(System.AccessToken)
+      echo $(System.AccessToken) | az devops login
+      az devops configure -d organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
+      Write-Host 'Before update:' + '$(System.TeamFoundationCollectionUri)'  + ':' + '$(Build.BuildId)'   
+      az pipelines variable-group variable update --id 1 --name buildno --value $(Build.BuildId)
+# - bash: echo $(Build.BuildId)
+#   name: echovar
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: '(Get-Content .\buildnotemplate.txt).replace(''{version}'', $(Build.BuildId)) | Set-Content .\buildno.txt'
+# - publish: $(System.DefaultWorkingDirectory)/buildno.txt
+#   artifact: buildno.txt
 # - task: PowerShell@2
 #   inputs:
 #     targetType: 'inline'
 #     script: 'Write-Host "##vso[task.setvariable variable=buildno]$(Build.BuildId)"'
 # - bash: echo $(buildno)
 #   name: echovar2
+# - bash: |
+#     curl -fL -XPUT -H "Authorization:Bearer $(System.AccessToken)" -H "Content-Type:application/json" -d '{"id": "$(VARIABLE_GROUP_ID)", "type": "Vsts", "name": "buildno", "variables": { "VARIABLE_GROUP_ID": {"isSecret": false, "value": "$(VARIABLE_GROUP_ID)"},"buildno": {"isSecret": false,"value": "$(Build.BuildId)"}}}' $(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_apis/distributedtask/variablegroups/$(VARIABLE_GROUP_ID)?api-version=5.0-preview.1
 # - publish: $(System.DefaultWorkingDirectory)/AZEApi/deployment.az.api.yaml
 #   artifact: deployment.az.api.yaml
+#https://stackoverflow.com/questions/56558143/is-there-a-way-to-set-variables-in-variable-groups/56558502#56558502
+#https://docs.microsoft.com/en-us/cli/azure/pipelines/variable-group/variable?view=azure-cli-latest#az-pipelines-variable-group-variable-update
+#https://docs.microsoft.com/en-us/rest/api/azure/devops/distributedtask/variablegroups/update?view=azure-devops-rest-5.1
+#https://stackoverflow.com/questions/52986076/having-no-permission-for-updating-variable-group-via-azure-devops-rest-api-from
+#https://docs.microsoft.com/en-us/azure/devops/pipelines/release/variables?view=azure-devops&tabs=batch
+
+## Release pipe az aks get-credentials --resource-group AZExtensive --name AZExtensive | kubectl set image deployment.v1.apps/azapi azapi=tudordumitriu/azapi:$(buildno)
