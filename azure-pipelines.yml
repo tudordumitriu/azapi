@@ -29,6 +29,7 @@ steps:
       az devops configure -d organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
       Write-Host 'Before update:' + '$(System.TeamFoundationCollectionUri)'  + ':' + '$(Build.BuildId)'   
       az pipelines variable-group variable update --id 1 --name buildno --value $(Build.BuildId)
+# The above script to run needs full permissions (badly configured) to Library Variable Groups Shared Variables Project Collection Grups: https://www.screencast.com/t/Zh34I5R0P)
 # - bash: echo $(Build.BuildId)
 #   name: echovar
 # - task: PowerShell@2
@@ -53,4 +54,4 @@ steps:
 #https://stackoverflow.com/questions/52986076/having-no-permission-for-updating-variable-group-via-azure-devops-rest-api-from
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/release/variables?view=azure-devops&tabs=batch
 
-## Release pipe az aks get-credentials --resource-group AZExtensive --name AZExtensive | kubectl set image deployment.v1.apps/azapi azapi=tudordumitriu/azapi:$(buildno)
+## Release pipe (need a Azure CLI task - task version 2.* - otherwise no multiline executed)  az aks get-credentials --resource-group AZExtensive --name AZExtensive | kubectl set image deployment.v1.apps/azapi azapi=tudordumitriu/azapi:$(buildno)
