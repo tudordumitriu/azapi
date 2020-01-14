@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  - group: SharedVariables 
+  - group: AZAPI.SharedVariables 
 
 steps:
 - task: Docker@2
