@@ -25,7 +25,7 @@ steps:
       echo $(System.AccessToken) | az devops login
       az devops configure -d organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)
       Write-Host 'Before update:' + '$(System.TeamFoundationCollectionUri)'  + ':' + '$(Build.BuildNumber)'   
-      az pipelines variable-group variable update --id 1 --name apibuildno --value $(Build.BuildNumber)
+      az pipelines variable-group variable update --id 1 --name apibuildno --value $(Build.BuildNumber).replace('.','')
 # The above script to run needs full permissions (badly configured) to Library Variable Groups Shared Variables Project Collection Grups: https://www.screencast.com/t/Zh34I5R0P)
 # - bash: echo $(Build.BuildId)
 #   name: echovar
