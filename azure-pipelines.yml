@@ -18,6 +18,7 @@ steps:
     targetType: 'inline'
     script: |
       az extension add --name azure-devops
+      Write-Host $(System.AccessToken)
       echo $(System.AccessToken) | az devops login
       az devops configure -d organization=https://dev.azure.com/$(System.TeamFoundationCollectionUri)/project=$(System.TeamProject) project=Test
       Write-Host 'Before update' + 'https://dev.azure.com/$(System.TeamFoundationCollectionUri)/project=$(System.TeamProject)'  + ' ' + '$(Build.BuildId)'   
