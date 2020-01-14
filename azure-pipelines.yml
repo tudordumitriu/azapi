@@ -17,6 +17,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      az extension add --name azure-devops
       echo $(System.AccessToken) | az devops login
       az devops configure -d organization=https://dev.azure.com/$(System.TeamFoundationCollectionUri)/project=$(System.TeamProject)
       az pipelines variable-group variable update --id 1 --name buildno --value $(Build.BuildId)
