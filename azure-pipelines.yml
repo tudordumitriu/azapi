@@ -13,6 +13,13 @@ variables:
   - group: SharedVariables 
 
 steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo $(System.AccessToken) | az devops login
+      az devops configure -d organization=https://dev.azure.com/$(System.TeamFoundationCollectionUri)/project=$(System.TeamProject)
+      az pipelines variable-group variable update --id 1 --name buildno --value $(Build.BuildId)
 # - bash: echo $(Build.BuildId)
 #   name: echovar
 # - task: Docker@2
@@ -28,15 +35,13 @@ steps:
     
 # - publish: $(System.DefaultWorkingDirectory)/buildno.txt
 #   artifact: buildno.txt
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'Write-Host "##vso[task.setvariable variable=buildno]$(Build.BuildId)"'
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: 'Write-Host "##vso[task.setvariable variable=buildno]$(Build.BuildId)"'
 
-- bash: echo $(buildno)
-  name: echovar2
-
-  
+# - bash: echo $(buildno)
+#   name: echovar2
 
 # - bash: |
 #     curl -fL -XPUT -H "Authorization:Bearer $(System.AccessToken)" -H "Content-Type:application/json" -d '{"id": "$(VARIABLE_GROUP_ID)", "type": "Vsts", "name": "buildno", "variables": { "VARIABLE_GROUP_ID": {"isSecret": false, "value": "$(VARIABLE_GROUP_ID)"},"buildno": {"isSecret": false,"value": "$(Build.BuildId)"}}}' $(System.TeamFoundationCollectionUri)/$(System.TeamProject)/_apis/distributedtask/variablegroups/$(VARIABLE_GROUP_ID)?api-version=5.0-preview.1
