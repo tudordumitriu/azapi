@@ -30,16 +30,16 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
+    workingDirectory: './AZEApi'
     script: |
       Write-Host "apibuildno" + $(apibuildno)
       docker login --username tudordumitriu --password=e7426419-5fad-4beb-aedb-fad0df312bdf
-      $Command = "docker build -t tudordumitriu/azapi:" + $(apibuildno) + " .\AZEApi\"
+      $Command = "docker build -t tudordumitriu/azapi:" + $(apibuildno) + " ."
       write-output "Executing $Command"
       Invoke-Expression $Command      
       $Command = "docker push tudordumitriu/azapi:" + $(apibuildno)
       write-output "Executing $Command"
       Invoke-Expression $Command
-
 # steps:
 # - task: PowerShell@2
 #   inputs:
