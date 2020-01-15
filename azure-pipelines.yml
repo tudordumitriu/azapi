@@ -9,24 +9,55 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: SharedVariables  
+
 steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host 'Releasing api:' + '$(System.TeamFoundationCollectionUri)'  + ':' + $(Build.BuildId)
-      az extension add --name azure-devops
-      Write-Host $(System.AccessToken)
-      echo $(System.AccessToken) | az devops login
-      az devops configure -d organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)      
-      az pipelines variable-group variable update --id 1 --name apibuildno --value $(Build.BuildId)
-# The above script to run needs full permissions (badly configured) to Library Variable Groups Shared Variables Project Collection Grups: https://www.screencast.com/t/Zh34I5R0P)
-- task: Docker@2
+      echo "##vso[task.setvariable variable=apibuildno]($(Build.BuildNumber).ToString()).replace('.', '')"
+- task: PowerShell@2
   inputs:
-    containerRegistry: 'Docker Hub'
-    repository: 'tudordumitriu/azapi'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    targetType: 'inline'
+    script: |    
+      Write-Host 'Releasing api:' + '$(System.TeamFoundationCollectionUri)'  + ':' + $(apibuildno)
+      az extension add --name azure-devops
+      echo $(System.AccessToken) | az devops login
+      az devops configure -d organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)       
+      az pipelines variable-group variable update --id 1 --name apibuildno --value $(apibuildno)
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "apibuildno" + $(apibuildno)
+      docker login --username tudordumitriu --password=e7426419-5fad-4beb-aedb-fad0df312bdf
+      $Command = "docker build -t tudordumitriu/azapi:" + $(apibuildno) + " ."
+      write-output "Executing $Command"
+      Invoke-Expression $Command      
+      $Command = "docker push tudordumitriu/azapi:" + $(apibuildno)
+      write-output "Executing $Command"
+      Invoke-Expression $Command
+
+# steps:
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: |
+#       Write-Host 'Releasing api:' + '$(System.TeamFoundationCollectionUri)'  + ':' + $(Build.BuildId)
+#       az extension add --name azure-devops
+#       Write-Host $(System.AccessToken)
+#       echo $(System.AccessToken) | az devops login
+#       az devops configure -d organization=$(System.TeamFoundationCollectionUri) project=$(System.TeamProject)      
+#       az pipelines variable-group variable update --id 1 --name apibuildno --value $(Build.BuildId)
+# # The above script to run needs full permissions (badly configured) to Library Variable Groups Shared Variables Project Collection Grups: https://www.screencast.com/t/Zh34I5R0P)
+# - task: Docker@2
+#   inputs:
+#     containerRegistry: 'Docker Hub'
+#     repository: 'tudordumitriu/azapi'
+#     command: 'buildAndPush'
+#     Dockerfile: '**/Dockerfile'
 
 # - bash: echo $(Build.BuildId)
 #   name: echovar
