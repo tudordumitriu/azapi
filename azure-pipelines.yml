@@ -14,7 +14,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host 'Releasing api:' + '$(System.TeamFoundationCollectionUri)'  + ':' + ($(Build.BuildId).ToString()).replace('.', '') 
+      Write-Host 'Releasing api:' + '$(System.TeamFoundationCollectionUri)'  + ':' + $(Build.BuildId)
       az extension add --name azure-devops
       Write-Host $(System.AccessToken)
       echo $(System.AccessToken) | az devops login
