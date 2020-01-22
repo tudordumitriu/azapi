@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: azapi
-        image: tudordumitriu/azapi:13
+        image: tudordumitriu/azapi:202001158
         imagePullPolicy: Always
         ports:
         - containerPort: 80
