@@ -20,7 +20,7 @@ namespace AZEFunctions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            fileStorage.WriteLine($"Hello from {input.Name}");
+            fileStorage.WriteLine($"Hello from {input.Name} updated");
 
             return input.Name != null
                 ? (ActionResult)new OkObjectResult($"Hello, {input.Name}")
