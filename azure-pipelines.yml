@@ -41,13 +41,6 @@ steps:
       $Command = "docker push tudordumitriu/azapi:" + $(apibuildno)
       write-output "Executing $Command"
       Invoke-Expression $Command
-- task: AzureFunctionApp@1
-  inputs:
-    azureSubscription: 'Free Trial (aa4fcee1-0f24-437f-9035-a1e959338fa5)'
-    appType: 'functionApp'
-    appName: 'AZEFunctionsAppServie'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'
-    deploymentMethod: 'auto'
 # steps:
 # - task: PowerShell@2
 #   inputs:
